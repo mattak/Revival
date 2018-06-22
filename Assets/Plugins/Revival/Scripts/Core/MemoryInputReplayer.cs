@@ -15,11 +15,12 @@ namespace Revival
 
         public void Replay()
         {
+            this.StartTime = Time.time;
         }
         
         public bool GetMouseButton(int button)
         {
-            this.Logger
+            throw new System.NotImplementedException();
         }
 
         public bool GetMouseButtonDown(int button)
