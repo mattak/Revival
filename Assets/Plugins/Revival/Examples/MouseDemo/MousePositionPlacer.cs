@@ -5,9 +5,10 @@ namespace Revival.Examples.MouseDemo
 {
     public class MousePositionPlacer : UIBehaviour
     {
-        private void Start()
+        protected override void Start()
         {
-            
+            Input.Instance = new MemoryInputLogger(new DefaultInput());
+            Input.Instance.Start();
         }
 
         private void Update()
