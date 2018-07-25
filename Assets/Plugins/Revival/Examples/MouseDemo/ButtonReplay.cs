@@ -6,8 +6,6 @@ namespace Revival
     [RequireComponent(typeof(Button))]
     public class ButtonReplay : MonoBehaviour
     {
-        private IInputLogger Logger;
-
         void Start()
         {
             this.GetComponent<Button>().onClick.AddListener(this.Click);
@@ -15,13 +13,7 @@ namespace Revival
 
         void Click()
         {
-            if (Input.Instance is IInputLogger)
-            {
-                this.Logger = (IInputLogger) Input.Instance;
-                Input.Instance = new MemoryInputReplayer(this.Logger);
-            }
-
-            Input.Instance.Start();
+            Input.Replay();
         }
     }
 }
