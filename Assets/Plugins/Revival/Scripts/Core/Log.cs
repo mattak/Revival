@@ -2,7 +2,7 @@
 {
     public class Log
     {
-        public float Time;
+        public int Frame;
 
         public object InputValue;
 

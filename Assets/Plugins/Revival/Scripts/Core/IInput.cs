@@ -15,5 +15,7 @@ namespace Revival
         Vector2 mouseScrollDelta { get; }
 
         bool mousePresent { get; }
+
+        void Start();
     }
 }

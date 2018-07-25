@@ -4,6 +4,10 @@ namespace Revival
 {
     public class DefaultInput : IInput
     {
+        public void Start()
+        {
+        }
+
         public bool GetMouseButton(int button)
         {
             return UnityEngine.Input.GetMouseButton(button);

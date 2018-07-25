@@ -5,60 +5,49 @@ namespace Revival
 {
     public class MemoryInputLogger : IInput, IInputLogger
     {
+        public IDictionary<InputTag, IDictionary<int, IList<Log>>> LogMap { get; private set; }
+        public int StartFrame { get; private set; }
         private IInput input;
-        
-        public IList<Log> Logs { get; private set; }
-        public float StartTime { get; private set; }
 
         public MemoryInputLogger(IInput input)
         {
             this.input = input;
-            this.Logs = new List<Log>();
-            this.StartTime = Time.time;
+            this.LogMap = new Dictionary<InputTag, IDictionary<int, IList<Log>>>();
+            this.StartFrame = Time.frameCount;
         }
 
-        public void Record()
+        public void Start()
         {
-            this.StartTime = Time.time;
+            this.StartFrame = Time.frameCount;
         }
 
         public bool GetMouseButton(int button)
         {
             var value = this.input.GetMouseButton(button);
-
-            this.Logs.Add(new Log
+            if (value)
             {
-                Time = Time.time,
-                InputValue = button,
-                ReturnValue = value
-            });
-
+                this.AddLog(InputTag.GetMouseButton, button, value);
+            }
             return value;
         }
 
         public bool GetMouseButtonDown(int button)
         {
             var value = this.input.GetMouseButtonDown(button);
-
-            this.Logs.Add(new Log
+            if (value)
             {
-                Time = Time.time,
-                InputValue = button,
-                ReturnValue = value,
-            });
-
+                this.AddLog(InputTag.GetMouseButtonDown, button, value);
+            }
             return value;
         }
 
         public bool GetMouseButtonUp(int button)
         {
             var value = this.input.GetMouseButtonUp(button);
-            this.Logs.Add(new Log
+            if (value)
             {
-                Time = Time.time,
-                InputValue = button,
-                ReturnValue = value,
-            });
+                this.AddLog(InputTag.GetMouseButtonUp, button, value);
+            }
             return value;
         }
 
@@ -67,11 +56,10 @@ namespace Revival
             get
             {
                 var value = this.input.mousePosition;
-                this.Logs.Add(new Log
+                if (value != default(Vector3))
                 {
-                    Time = Time.time,
-                    ReturnValue = value,
-                });
+                    this.AddLog(InputTag.mousePosition, null, value);
+                }
                 return value;
             }
         }
@@ -81,11 +69,10 @@ namespace Revival
             get
             {
                 var value = this.input.mouseScrollDelta;
-                this.Logs.Add(new Log
+                if (value != default(Vector2))
                 {
-                    Time = Time.time,
-                    ReturnValue = value,
-                });
+                    this.AddLog(InputTag.mouseScrollDelta, null, value);
+                }
                 return value;
             }
         }
@@ -95,11 +82,10 @@ namespace Revival
             get
             {
                 var value = this.input.mousePresent;
-                this.Logs.Add(new Log
+                if (value)
                 {
-                    Time = Time.time,
-                    ReturnValue = value,
-                });
+                    this.AddLog(InputTag.mousePresent, null, value);
+                }
                 return value;
             }
         }
